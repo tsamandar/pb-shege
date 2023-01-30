@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:767003SA@localhost:3306/bot_shege?schema=public"
+}
+
+model articles {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  info      String   @db.VarChar(255)
+  photo     String   @db.VarChar(255)
+  date      DateTime @default(now())
+  tags      String   @db.VarChar(255)
+  read_time Int
+}
+
+model podcasts {
+  id     Int    @id @default(autoincrement())
+  title  String @db.VarChar(255)
+  info   String @db.VarChar(255)
+  poster String @db.VarChar(255)
+  video  String @db.VarChar(255)
+  parts  String @db.MediumText
+}
+
+model categories {
+  id       Int        @id @default(autoincrement())
+  title    String     @db.VarChar(255)
+  products products[]
+}
+
+model products {
+  id          Int        @id @default(autoincrement())
+  title       String     @db.VarChar(255)
+  info        String     @db.MediumText
+  photo       String     @db.VarChar(255)
+  price       Int
+  size        String     @db.VarChar(255)
+  color       String     @db.VarChar(255)
+  gallery     String     @db.MediumText
+  category_id Int
+  category    categories @relation(fields: [category_id], references: [id])
+}
